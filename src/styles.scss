@@ -1,0 +1,293 @@
+@import "scss/reset";
+@import "scss/base";
+@import "scss/colors";
+
+body {
+  overflow-x: hidden;
+}
+
+#app {
+  max-width: 1900px;
+  margin: 0 auto;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+i {
+  color: var(--accent);
+  font-style: normal;
+}
+
+nav {
+  display: grid;
+  grid-template-columns: 200px 1fr 350px;
+
+  #logo {
+    font-weight: 600;
+    font-size: 32px;
+    color: #000000;
+  }
+  ul {
+    display: flex;
+    justify-content: center;
+    column-gap: 64px;
+    align-items: center;
+    &:last-child {
+      justify-content: flex-end;
+    }
+  }
+  .nav-tree {
+    li {
+      a {
+        position: relative;
+        &::after {
+          content: "";
+          position: absolute;
+          left: 0;
+          right: 0;
+          height: 5px;
+          bottom: 2px;
+          z-index: -1;
+          background-color: var(--accent);
+          opacity: 0;
+        }
+        &:hover::after {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  .nav-button {
+    &--active {
+      border-radius: 18px;
+      padding: 6px 32px;
+      color: #ffffff;
+      background-color: var(--primary);
+    }
+  }
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  margin-top: 100px;
+
+  &-title {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    &__line {
+      margin-bottom: -10px;
+      height: 85px;
+      overflow: hidden;
+      @for $i from 1 to 4 {
+        &:nth-child(#{$i}) span {
+          animation-delay: #{0.2 * $i} + "s";
+        }
+      }
+      span {
+        animation: hero-slide 0.15s 0s ease-in forwards;
+        opacity: 0;
+        @keyframes hero-slide {
+          from {
+            opacity: 0;
+            transform: translateY(100%);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0%);
+          }
+        }
+      }
+    }
+  }
+
+  &-search {
+    display: grid;
+    grid-template-columns: 1fr 90px;
+    box-shadow: 0 6px 36px 20px rgba(0, 0, 0, 0.05);
+    &__input {
+      padding: 16px 32px;
+      box-sizing: border-box;
+      &::placeholder {
+        opacity: 1;
+      }
+    }
+    &__submit {
+      height: 90px;
+      width: 90px;
+      color: #000000;
+      font-size: 24px;
+      z-index: 2;
+      background-color: var(--accent);
+    }
+  }
+  &-left {
+    h1 {
+      font-size: 72px;
+      font-weight: 600;
+      span {
+        display: block;
+      }
+    }
+  }
+  &-right {
+    display: flex;
+    column-gap: 32px;
+    .slide {
+      width: 150px;
+      height: 120%;
+      position: relative;
+      border-radius: 16px;
+      overflow: hidden;
+      color: #ffffff;
+      transition: width 0.3s ease-out;
+      &::before {
+        content: "";
+        height: 60%;
+        width: 100%;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(
+          180deg,
+          hsla(0, 0%, 0%, 0) 0%,
+          hsla(0, 0%, 0%, 0.7) 100%
+        );
+      }
+      h2 {
+        position: absolute;
+        bottom: 40px;
+        left: 24px;
+        font-size: 32px;
+        writing-mode: vertical-lr;
+        direction: rtl;
+        transform: rotateZ(180deg);
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+      &-header {
+        height: 80%;
+        position: relative;
+        top: 10%;
+        &::before {
+          content: "";
+          height: 100px;
+          width: 100px;
+          position: absolute;
+          background-color: var(--primary);
+          bottom: 0;
+        }
+      }
+      &-title {
+        font-size: 32px;
+        max-width: 180px;
+      }
+      &-content {
+        position: absolute;
+        bottom: 48px;
+        left: 48px;
+        right: 48px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      &-data {
+        .count {
+          font-size: 42px;
+          text-align: center;
+        }
+        .label {
+          font-size: 12px;
+          text-transform: uppercase;
+          text-align: center;
+        }
+      }
+      &-image {
+        z-index: -1;
+        height: 100%;
+        width: 100%;
+        background-position: center;
+        background-size: cover;
+        background-repeat: no-repeat;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+      }
+      @for $i from 1 to 12 {
+        &:nth-child(#{$i}) {
+          .slide-image {
+            background-image: url("/assets/images/#{$i}.webp");
+          }
+        }
+      }
+      &:not(.slide--active) {
+        .slide-header {
+          animation: slide-up 0.3s ease-out forwards;
+          @keyframes slide-up {
+            from {
+              transform: translateY(0);
+            }
+            to {
+              transform: translateY(-10px);
+            }
+          }
+        }
+        .slide-content {
+          opacity: 0;
+        }
+      }
+      &--active {
+        width: 400px;
+        .slide-header {
+          opacity: 0;
+        }
+        .slide-content {
+          animation: slide-right 0.3s ease-out forwards;
+          @keyframes slide-right {
+            from {
+              transform: translateX(0);
+            }
+            to {
+              transform: translateX(10px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+footer {
+  margin-top: 200px;
+  text-align: center;
+  h2 {
+    font-size: 36px;
+    font-weight: 600;
+  }
+}
+.attribution {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+    sans-serif;
+  position: fixed;
+  bottom: 1rem;
+  left: 1rem;
+  width: 17.5rem;
+  z-index: 2;
+  &__container {
+    padding: 0.3rem 0.8rem;
+    border-radius: 1rem;
+    background-color: #fff;
+    box-shadow: 0 0 0.5rem hsla(0, 0%, 47.8%, 0.16);
+    color: #000;
+    a {
+      color: inherit;
+      text-decoration: none;
+      font-weight: 700;
+    }
+  }
+}
